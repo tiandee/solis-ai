@@ -1,0 +1,47 @@
+# Git 忽略文件
+
+# 数据文件
+data/raw/*.csv
+data/raw/*.zip
+data/processed/*.csv
+
+# 模型文件
+models/*.pkl
+models/*.joblib
+models/*.txt
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+eggs/
+*.egg
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# 环境
+.env
+.venv/
+env/
+venv/
+
+# 日志
+*.log
+logs/
