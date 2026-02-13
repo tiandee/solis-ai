@@ -10,6 +10,23 @@
 原始数据 → 特征工程 → LightGBM 5-Fold CV → 预测结果
 ```
 
+## 性能优化 (v2)
+
+**最新成果**: MAE **445.68** (提升 ~52 分)
+
+相比 Baseline，v2 版本引入了：
+1. **增强特征**: Target Encoding, 统计特征, 高阶交互特征
+2. **多模型融合**: LightGBM + XGBoost + CatBoost 加权融合
+3. **精细调优**: 针对性参数调整 + 缺失值/异常值优化
+
+### Stacking 冲刺 (v3)
+
+为了冲击 < 400 分，我们在 v2 基础上引入了：
+- **神经网络**: PyTorch MLP 模型 (单模型提供差异化)
+- **Stacking 融合**: 使用 BayesianRidge 自动融合 4 个基模型 (LGB, XGB, Cat, NN)
+
+[📄查看详细优化报告](docs/optimization_v2.md)
+
 ## 特征工程
 
 ### 1. 数据清洗
@@ -47,10 +64,24 @@ LGB_PARAMS = {
 
 ```bash
 cd code
+cd code
+# 原始 Baseline (MAE ~497)
 python main.py
+
+# 优化版 v2 (MAE ~445)
+python train_optimized.py
+
+# Stacking 冲刺版 v3 (Target < 400)
+# 1. 确保 train_optimized.py 已运行（生成树模型 OOF）
+# 2. 运行神经网络训练
+python train_nn.py
+# 3. 运行 Stacking 融合
+python stacking.py
 ```
 
-输出文件: `prediction_result/predictions.csv`
+输出文件:
+- v2: `prediction_result/predictions_testB_v2.csv`
+- v3: `prediction_result/predictions_stacking.csv`
 
 ## 目录结构
 
